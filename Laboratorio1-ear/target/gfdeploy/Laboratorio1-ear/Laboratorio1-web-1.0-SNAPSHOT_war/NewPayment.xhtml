@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <style type="text/css">
+        body {
+            font-family: sans-serif;
+        }
+
+        .flex {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: center;
+        }
+        
+        .flex-buttons {
+            display: flex !important;
+            gap: 50px !important;
+        }
+    </style>
+    <h:head>
+        <title>Nuevo Pago</title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form>
+                <div class="flex">
+                    <div class="flex">
+                        <p:outputLabel for="clientId" value="ID Cliente"/>
+                        <p:inputText id="clientId"  value="#{userMBean.payment.clientId.id}" autocomplete="off"
+                                     validatorMessage="Debe ingresar una identificación"/>
+                    </div>
+                    <div class="flex">
+                        <p:outputLabel for="clientName" value="Nombre Cliente"/>
+                        <p:inputText id="clientName"  value="#{userMBean.payment.clientId.clientName}" autocomplete="off"
+                                     validatorMessage="Debe ingresar un nombre"/>
+                    </div>
+                    <div class="flex">
+                        <p:outputLabel for="clientEmail" value="Email Cliente"/>
+                        <p:inputText id="clientEmail"  value="#{userMBean.payment.clientId.email}" autocomplete="off"
+                                     validatorMessage="Debe ingresar un email"/>
+                    </div>
+                    <div class="flex">
+                        <p:outputLabel for="cardId" value="# Tarjeta"/>
+                        <p:inputText id="cardId" 
+                                     value="#{userMBean.payment.cardId.number}" 
+                                     onkeypress="if (event.which &lt; 48 || event.which &gt; 57) return false;"
+                                     validatorMessage="La tarjeta debe tener entre 10 y 16 dígitos"
+                                     autocomplete="off">
+                            <f:validateLength minimum="10" maximum="16" />
+                        </p:inputText>
+                    </div>
+                    <div class="flex">
+                        <p:outputLabel for="cvv" value="CVV"/>
+                        <p:inputText id="cvv" value="#{userMBean.payment.cardId.cvv}" 
+                                     onkeypress="if (event.which &lt; 48 || event.which &gt; 57) return false;"
+                                     maxlength="3" 
+                                     validatorMessage="El CVV debe tener 3 dígitos" 
+                                     autocomplete="off">
+                            <f:validateLength minimum="3" maximum="3" />
+                        </p:inputText>
+                    </div>
+                    <div class="flex">
+                        <p:outputLabel for="expirationDate" value="Fecha Vencimiento"/>
+                        <p:inputText id="expirationDate" 
+                                     value="#{userMBean.payment.cardId.expiration}" 
+                                     autocomplete="off" 
+                                     placeholder="MM/yy" 
+                                     validatorMessage="La fecha de expiración debe estar en el formato MM/YY"
+                                     maxlength="5">
+                            <f:validateLength minimum="5" maximum="5" />
+                        </p:inputText>
+                    </div>
+                    <div class="flex">
+                        <p:outputLabel for="value" value="Valor Pago"/>
+                        <p:inputText id="value" 
+                                     onkeypress="if (event.which &lt; 48 || event.which &gt; 57) return false;" 
+                                     value="#{userMBean.payment.value}" 
+                                     validatorMessage="El valor debe estar entre $500 y $10000" autocomplete="off">
+                            <f:validateLongRange minimum="500" maximum="10000"/>
+                        </p:inputText>
+                    </div>
+                    <div class="flex">
+                        <p:messages id="msg"/>
+                        <!--<p:captcha></p:captcha>-->
+                    </div>
+                    <br/>
+                    <div class="flex-buttons">
+                        <div>
+                            <h:commandButton id="continue" value="Pagar" action="#{userMBean.continuePayment()}" />
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+        </f:view>
+    </h:body>
+</html>
+
